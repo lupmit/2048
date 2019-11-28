@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <array name="maucuaso">
+        <item>#40C9B7</item>
+        <item>#00B2A4</item>
+        <item>#ED5472</item>
+        <item>#C53362</item>
+        <item>#B81C65</item>
+        <item>#9E005D</item>
+        <item>#FFB23C</item>
+        <item>#F5852F</item>
+        <item>#E85939</item>
+        <item>#FF0000</item>
+        <item>#00FF08</item>
+
+    </array>
+</resources>
