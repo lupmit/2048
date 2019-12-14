@@ -12,6 +12,7 @@ public class maingame {
     private int[] mangMau;
     private ArrayList<Integer> arrSo = new ArrayList<>();
     int [][] mangXL = new int[4][4];
+    int [][] mangXL_bf = new int[4][4];
 
     static {
         maingame = new maingame();
@@ -25,6 +26,7 @@ public class maingame {
         for(int i = 0;i< 4; i++) {
             for(int j = 0; j<4; j++) {
                 mangXL[i][j] = 0;
+                mangXL_bf[i][j] = 0;
                 arrSo.add(0);
             }
         }
@@ -87,207 +89,149 @@ public class maingame {
         }
     }
 
-    public int vuottrai(customAdapter customAdapter) {
-        int diem = 0;
-        for(int i = 3;i>=0; i--) {
-            for(int j = 3; j>=0; j--) {
-                int so = mangXL[i][j];
-                if(so == 0)
-                    continue;
-                else {
-                    for(int k = j-1; k>=0; k--) {
-                        int sonew = mangXL[i][k];
-                        if(sonew == 0)
-                            continue;
-                        else if(sonew == so) {
-                            if(so!=0)
-                                diem += 1;
-                            mangXL[i][j] = so *2;
-                            chuyendoi();
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[i][k] = 0;
-                            chuyendoi();
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }else
-                            break;
-                    }
-                }
-            }
-        }
-
-        for(int i = 3;i>=0; i--) {
-            for(int j = 3; j>=0; j--) {
-                int so = mangXL[i][j];
-                if (so == 0) {
-                    for(int k = j-1; k>=0; k--) {
-                        int sonew = mangXL[i][k];
-                        if (sonew == 0)
-                            continue;
-                        else {
-                            mangXL[i][j] = mangXL[i][k];
-                            chuyendoi();
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[i][k] = 0;
-                            chuyendoi();
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        taoso();
-        return diem;
-    }
-    public int vuotphai(customAdapter customAdapter) {
-        int diem = 0;
-        for(int i = 0;i<4; i++) {
-            for(int j = 0; j<4; j++) {
-                int so = mangXL[i][j];
-                if(so == 0)
-                    continue;
-                else {
-                    for(int k = j+1; k<4; k++) {
-                        int sonew = mangXL[i][k];
-                        if(sonew == 0)
-                            continue;
-                        else if(sonew == so) {
-                            if(so!=0)
-                            diem += 1;
-                            mangXL[i][j] = so *2;
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[i][k] = 0;
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }else
-                            break;
-                    }
-                }
-            }
-        }
-
-        for(int i = 0;i<4; i++) {
-            for(int j = 0; j<4; j++) {
-                int so = mangXL[i][j];
-                if (so == 0) {
-                    for(int k = j+1; k<4; k++) {
-                        int sonew = mangXL[i][k];
-                        if (sonew == 0)
-                            continue;
-                        else {
-                            mangXL[i][j] = mangXL[i][k];
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[i][k] = 0;
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        taoso();
-        chuyendoi();
-        return diem;
-    }
-    public int vuotlen(customAdapter customAdapter) {
-        int diem = 0;
+    public void coppyMang() {
         for(int i = 0;i< 4; i++) {
             for(int j = 0; j<4; j++) {
-                int so = mangXL[j][i];
-                if(so == 0)
-                    continue;
-                else {
-                    for(int k = j+1; k<4; k++) {
-                        int sonew = mangXL[k][i];
-                        if(sonew == 0)
-                            continue;
-                        else if(sonew == so) {
-                            if(so!=0)
-                            diem+= 1;
-                            mangXL[j][i] = so *2;
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[k][i] = 0;
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }else
-                            break;
-                    }
-                }
+                mangXL_bf[i][j] = mangXL[i][j];
             }
         }
+    }
 
+    public void back_to_bf() {
         for(int i = 0;i< 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                int so = mangXL[j][i];
-                if (so == 0) {
-                    for(int k = j+1; k<4; k++) {
-                        int sonew = mangXL[k][i];
-                        if (sonew == 0)
-                            continue;
-                        else {
-                            mangXL[j][i] = mangXL[k][i];
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[k][i] = 0;
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }
-                    }
-                }
+            for(int j = 0; j<4; j++) {
+                mangXL[i][j] = mangXL_bf[i][j];
             }
         }
+        chuyendoi();
+    }
+
+    public int vuottrai() {
+        coppyMang();
+        int hang,cot,cot_,diem = 0;
+        for (hang=0;hang<4;hang++)
+            for(cot=3;cot>0;cot--)
+                for(cot_=3;cot_>0;cot_--)
+                    if ((mangXL[hang][cot_] == 0) && (mangXL[hang][cot_-1]!=0)){
+                        mangXL[hang][cot_] = mangXL[hang][cot_-1];
+                        mangXL[hang][cot_-1] = 0;
+                    }
+
+        for (hang=0;hang<4;hang++)
+            for (cot=3;cot>0;cot--)
+                if (mangXL[hang][cot] == mangXL[hang][cot-1] && mangXL[hang][cot]!=0){  //cong don cac o lien nhau co cung gia tri
+                    mangXL[hang][cot] += mangXL[hang][cot];
+                    mangXL[hang][cot-1] = 0;
+                    diem+=1;
+                }
+        for (hang=0;hang<4;hang++)
+            for(cot=3;cot>0;cot--)
+                for(cot_=3;cot_>0;cot_--)
+                    if(mangXL[hang][cot_] == 0){
+                        mangXL[hang][cot_] = mangXL[hang][cot_-1];
+                        mangXL[hang][cot_-1] = 0;
+                    }
         taoso();
         chuyendoi();
         return diem;
     }
-    public int vuotxuong(customAdapter customAdapter) {
-        int diem = 0;
-        for(int i = 3;i>=0; i--) {
-            for(int j = 3; j>=0; j--) {
-                int so = mangXL[j][i];
-                if(so == 0)
-                    continue;
-                else {
-                    for(int k = j-1; k>=0; k--) {
-                        int sonew = mangXL[k][i];
-                        if(sonew == 0)
-                            continue;
-                        else if(sonew == so) {
-                            if(so!=0)
-                            diem += 1;
-                            mangXL[j][i] = so *2;
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[k][i] = 0;
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }else
-                            break;
+    public int vuotphai() {
+        coppyMang();
+        int hang,cot,cot_,diem = 0;
+        for (hang=0;hang<4;hang++)
+            for(cot=0;cot<3;cot++)
+                for(cot_=0;cot_ <3;cot_++)
+                    if ((mangXL[hang][cot_] == 0) && (mangXL[hang][cot_+1]!=0)){
+                        mangXL[hang][cot_] = mangXL[hang][cot_+1];
+                        mangXL[hang][cot_+1] = 0;
                     }
+        for (hang=0;hang<4;hang++)
+            for (cot=0;cot<3;cot++)
+                if (mangXL[hang][cot] == mangXL[hang][cot+1] && mangXL[hang][cot]!=0){  //cong don cac o lien nhau co cung gia tri
+                    mangXL[hang][cot] += mangXL[hang][cot];
+                    mangXL[hang][cot+1] = 0;
+                    diem += 1;
                 }
-            }
-        }
-
-        for(int i = 3;i>=0; i--) {
-            for(int j = 3; j>=0; j--) {
-                int so = mangXL[j][i];
-                if (so == 0) {
-                    for(int k = j-1; k>=0; k--) {
-                        int sonew = mangXL[k][i];
-                        if (sonew == 0)
-                            continue;
-                        else {
-                            mangXL[j][i] = mangXL[k][i];
-                            customAdapter.notifyDataSetChanged();
-                            mangXL[k][i] = 0;
-                            customAdapter.notifyDataSetChanged();
-                            break;
-                        }
+        for (hang=0;hang<4;hang++)
+            for(cot=0;cot<3;cot++)
+                for(cot_=0;cot_ <3;cot_++)
+                    if(mangXL[hang][cot_] == 0){
+                        mangXL[hang][cot_] = mangXL[hang][cot_+1];
+                        mangXL[hang][cot_+1] = 0;
                     }
-                }
-            }
-        }
         taoso();
         chuyendoi();
         return diem;
+    }
+
+    public int vuotlen() {
+        coppyMang();
+        int hang,cot,hang_, diem = 0;
+        for (cot=0;cot<4;cot++)
+            for(hang=0;hang<3;hang++)
+                for(hang_=0;hang_<3;hang_++)
+                    if((mangXL[hang_][cot]==0) && (mangXL[hang_+1][cot]!=0)){
+                        mangXL[hang_][cot]=mangXL[hang_+1][cot];
+                        mangXL[hang_+1][cot]=0;
+                    }
+        for (cot=0;cot<4;cot++)
+            for (hang=0;hang<3;hang++)
+                if (mangXL[hang][cot]==mangXL[hang+1][cot] && mangXL[hang][cot]!=0){    //cong don cac o lien nhau co cung gia tri
+                    mangXL[hang][cot]+=mangXL[hang][cot];
+                    mangXL[hang+1][cot]=0;
+                    diem+=1;
+                }
+        for (cot=0;cot<4;cot++)
+            for(hang=0;hang<3;hang++)
+                for(hang_=0;hang_<3;hang_++)
+                    if(mangXL[hang_][cot]==0){
+                        mangXL[hang_][cot]=mangXL[hang_+1][cot];
+                        mangXL[hang_+1][cot]=0;
+                    }
+        taoso();
+        chuyendoi();
+        return diem;
+    }
+    public int vuotxuong() {
+        coppyMang();
+        int hang,cot,hang_,diem = 0;
+        for (cot=0;cot<4;cot++)
+            for(hang=3;hang>0;hang--)
+                for(hang_=3;hang_>0;hang_--)
+                    if ((mangXL[hang_][cot]==0) && (mangXL[hang_-1][cot]!=0)){
+                        mangXL[hang_][cot]=mangXL[hang_-1][cot];
+                        mangXL[hang_-1][cot]=0;
+                    }
+        for (cot=0;cot<4;cot++)
+            for (hang=3;hang>0;hang--)
+                if (mangXL[hang][cot]==mangXL[hang-1][cot] && mangXL[hang][cot]!=0){
+                    mangXL[hang][cot]+=mangXL[hang][cot];
+                    mangXL[hang-1][cot]=0;
+                    diem+=1;
+                }
+        for (cot=0;cot<4;cot++)
+            for(hang=3;hang>0;hang--)
+                for(hang_=3;hang_>0;hang_--)
+                    if(mangXL[hang_][cot]==0){
+                        mangXL[hang_][cot]=mangXL[hang_-1][cot];
+                        mangXL[hang_-1][cot]=0;
+                    }
+        taoso();
+        chuyendoi();
+        return diem;
+    }
+
+     public boolean endgame(){
+        int i, j ,otrong=0,cong=0;
+        for (i=0;i<4;i++)
+            for (j=0;j<4;j++)
+                if (mangXL[i][j] ==0) otrong = 1;
+        for (i=0;i<3;i++)
+            for (j=0;j<3;j++)
+                if ((mangXL[i][j]==mangXL[i+1][j]) || (mangXL[i][j]==mangXL[i][j+1]))
+                    cong = 1;
+
+        if ((otrong==0)&&(cong==0)) return true;
+        else return false;
     }
 }

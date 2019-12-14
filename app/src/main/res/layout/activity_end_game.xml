@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EndGame"
+    android:background="#57407C">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Game Over!"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            />
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            android:text="Score\n1000"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:background="@drawable/background"
+            android:id="@+id/tv_score"/>
+        <Button
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:text="Try Again"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/background"
+            android:id="@+id/btn_try"/>
+    </LinearLayout>
+
+</LinearLayout>
